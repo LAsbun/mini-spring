@@ -27,6 +27,7 @@ public class ProxyDynamic implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // 如果方法不是修饰的方法，那么就直接执行
         if (!method.getName().equals(targetMethod)) {
             return method.invoke(this.target, args);
         }

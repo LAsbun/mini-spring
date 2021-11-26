@@ -19,13 +19,12 @@ public class MiniApplication {
         TomcatServer tomcatServer = new TomcatServer();
 
         try {
-
+            // 启动tomcat
             tomcatServer.startServer();
-
+            // 记载实例Bean
             List<Class<?>> classList = ClassScanner.scannerClasses(clz.getPackage().getName());
-
             BeanFactory.initBean(classList);
-
+            // 绑定path 以及对应的实现类
             HandlerManager.resolveMappingHandler(classList);
         } catch (Exception e) {
             e.printStackTrace();

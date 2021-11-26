@@ -14,15 +14,18 @@ public class TomcatServer {
     private Tomcat tomcat;
 
     public void startServer() throws LifecycleException {
+
+        // 实例化，并绑定端口
         tomcat = new Tomcat();
         tomcat.getConnector().setURIEncoding("UTF-8");
         tomcat.setPort(8080);
         tomcat.start();
 
+        // 设置servlet类
         Context context = new StandardContext();
         context.setPath("");
         context.addLifecycleListener(new Tomcat.FixContextListener());
-
+        // 这里就是核心外部请求
         DispatcherServlet servlet = new DispatcherServlet();
         Tomcat.addServlet(context, "dispatchServlet", servlet)
                 .setAsyncSupported(false);
@@ -30,7 +33,7 @@ public class TomcatServer {
         context.addServletMappingDecoded("/", "dispatchServlet");
 
         tomcat.getHost().addChild(context);
-
+        // 启动
         Thread tomcatAwaitThread = new Thread("tomcat_await_thread") {
 
             @Override
@@ -39,6 +42,7 @@ public class TomcatServer {
             }
         };
 
+        // 阻塞，等待请求
         tomcatAwaitThread.setDaemon(false);
         tomcatAwaitThread.start();
 

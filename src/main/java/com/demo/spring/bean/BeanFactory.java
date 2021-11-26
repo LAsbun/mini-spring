@@ -37,10 +37,10 @@ public class BeanFactory {
             }
         }
 
-        // 切面
+        // 加载切面类。返回
         resolveAOP(aspectClzList);
 
-        //
+        // 将切面实现的类，重新替换掉原有注入的类。
         for (Class<?> aClass : beanHasAutoWiredField) {
             createBean(aClass);
         }
@@ -60,6 +60,7 @@ public class BeanFactory {
             Object bean = aClass.newInstance();
             Method[] declaredMethods = aClass.getDeclaredMethods();
             for (Method declaredMethod : declaredMethods) {
+                // 这里是找到对应的切面类中标识的切面语法
                 if (declaredMethod.isAnnotationPresent(Pointcut.class)) {
                     String pointCutValue = declaredMethod.getAnnotation(Pointcut.class).value();
                     String classStr = pointCutValue.substring(0, pointCutValue.lastIndexOf("."));
@@ -75,6 +76,7 @@ public class BeanFactory {
             }
 
             for (Method declaredMethod : bean.getClass().getDeclaredMethods()) {
+                // 找到Before和After修饰的方法。
                 if (declaredMethod.isAnnotationPresent(Before.class)) {
                     String value = declaredMethod.getAnnotation(Before.class).value();
                     if (takeToBrackets.apply(value).equals(pointcutName)) {
@@ -89,7 +91,7 @@ public class BeanFactory {
             }
 
             Object proxy = new ProxyDynamic().createProxy(bean, before, after, target, takeToBrackets.apply(method));
-
+            // 切面的原理就在这里。创建了一个实例类，并替换对应Class的实例. 这样子实际获取到的bean就是代理类了。
             BeanFactory.beans.put(target.getClass(), proxy);
         }
 
