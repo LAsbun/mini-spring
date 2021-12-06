@@ -20,15 +20,15 @@ public interface BeanFactory {
      */
     Object getBean(String name) throws BeansException;
 
-    /**
-     * 获取指定类型Bean
-     *
-     * @param requiredType
-     * @param <T>       Bean类型
-     * @return
-     * @throws BeansException bean不存在时
-     */
-    <T> T getBean(Class<T> requiredType) throws BeansException;
+//    /**
+//     * 获取指定类型Bean
+//     *
+//     * @param requiredType
+//     * @param <T>       Bean类型
+//     * @return
+//     * @throws BeansException bean不存在时
+//     */
+//    <T> T getBean(Class<T> requiredType) throws BeansException;
 
     /**
      * 获取指定类型Bean
@@ -41,7 +41,9 @@ public interface BeanFactory {
      */
     <T> T getBean(String name, Class<T> requiredType) throws BeansException;
 
-    // 包含Bean
-//    boolean containsBean(String name);
+    /*
+     * 包含Bean
+     */
+    boolean containsBean(String name);
 
 }

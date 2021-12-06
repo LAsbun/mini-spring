@@ -1,10 +1,15 @@
 package com.demo.spring.framework.bean.factory.support;
 
+import com.demo.spring.framework.bean.core.convert.ConversionService;
 import com.demo.spring.framework.bean.exception.BeansException;
 import com.demo.spring.framework.bean.factory.BeanDefinition;
-import com.demo.spring.framework.bean.factory.BeanFactory;
-import com.demo.spring.framework.bean.factory.ConfiguratableBeanFactory;
+import com.demo.spring.framework.bean.factory.ConfigurableBeanFactory;
 import com.demo.spring.framework.bean.factory.FactoryBean;
+import com.demo.spring.framework.bean.factory.config.BeanPostProcessor;
+import com.demo.spring.framework.bean.util.StringValueResolver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * BeanFactory抽象接口
@@ -12,7 +17,14 @@ import com.demo.spring.framework.bean.factory.FactoryBean;
  * @author shengweisong
  * @date 2021-12-06 8:11 PM
  **/
-public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfiguratableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
+
+    private final List<StringValueResolver> stringValueResolverList = new ArrayList<>();
+
+    private ConversionService conversionService;
+
     @Override
     public Object getBean(String name) throws BeansException {
         Object sharedInstance = getSingleton(name);
@@ -27,6 +39,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
     // 创建实例Bean
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition);
+
+    //
+    protected abstract BeanDefinition getBeanDefinition(String name);
+
+    protected abstract boolean containsBeanDifinition(String beanName);
+
+    @Override
+    public boolean containsBean(String beanName) {
+        return containsBeanDifinition(beanName);
+    }
 
     /**
      * 在这里特殊判断是否是由FactoryBean创建
@@ -58,15 +80,45 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return object;
     }
 
-    protected abstract BeanDefinition getBeanDefinition(String name);
-
-    @Override
-    public <T> T getBean(Class<T> requiredType) throws BeansException {
-        return null;
-    }
 
     @Override
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
-        return null;
+        return (T) getBean(name);
+    }
+
+    @Override
+    public void addBeanProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessorList.remove(beanPostProcessor);
+        this.beanPostProcessorList.add(beanPostProcessor);
+    }
+
+    @Override
+    public void destroySingletons() {
+
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver resolver) {
+        this.stringValueResolverList.add(resolver);
+    }
+
+    @Override
+    public String resolveEmbrddedValue(String value) {
+        String result = value;
+        for (StringValueResolver stringValueResolver : this.stringValueResolverList) {
+            result = stringValueResolver.resolverStringValue(result);
+        }
+
+        return result;
+    }
+
+    @Override
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public ConversionService getConversionService() {
+        return this.conversionService;
     }
 }

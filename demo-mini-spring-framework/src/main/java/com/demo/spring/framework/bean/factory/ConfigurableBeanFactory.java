@@ -1,5 +1,9 @@
 package com.demo.spring.framework.bean.factory;
 
+import com.demo.spring.framework.bean.core.convert.ConversionService;
+import com.demo.spring.framework.bean.factory.config.BeanPostProcessor;
+import com.demo.spring.framework.bean.util.StringValueResolver;
+
 /**
  * 结合BeanFactory和SingletonBeanRegistry
  * <p>
@@ -9,7 +13,7 @@ package com.demo.spring.framework.bean.factory;
  * @author shengweisong
  * @date 2021-12-03 5:04 PM
  **/
-public interface ConfiguratableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
+public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
     /**
      * 单例Scopr
@@ -25,32 +29,38 @@ public interface ConfiguratableBeanFactory extends HierarchicalBeanFactory, Sing
      * bean额外生命周期 Before & After. BeanPostProcessor
      * addBeanPostProcessor
      */
+    void addBeanProcessor(BeanPostProcessor beanPostProcessor);
 
 
     /**
-     *  destorySingtons; 在工厂关闭的时候被调用.
-     *  destroySingletons
+     * destorySingtons; 在工厂关闭的时候被调用.
+     * destroySingletons
      */
+    void destroySingletons();
 
     /**
      * 对字符串处理的简单策略
      * addEmbeddedValueResolver
      */
+    void addEmbeddedValueResolver(StringValueResolver resolver);
 
     /**
      * 对字符串处理
      * resolveEmbeddedValue
      */
+    String resolveEmbrddedValue(String value);
 
     /**
      * 类型转换 ConvertService
-     * addConvertService
+     * setConvertService
      */
+    void setConversionService(ConversionService conversionService);
+
 
     /**
-     * 对字符串处理
-     * resolveConvertService
+     * 获取对应的ConversionService
      */
+    ConversionService getConversionService();
 
 
 }
