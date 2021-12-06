@@ -13,6 +13,7 @@ public interface SingletonBeanRegistry {
 
     /**
      * 注册beanName以及单例
+     * 这里注册的就是真实单例bean
      */
     void registerSingleton(String beanName, Object singletonObject);
 

@@ -26,6 +26,7 @@ public interface ConfiguratableBeanFactory extends HierarchicalBeanFactory, Sing
      * addBeanPostProcessor
      */
 
+
     /**
      *  destorySingtons; 在工厂关闭的时候被调用.
      *  destroySingletons

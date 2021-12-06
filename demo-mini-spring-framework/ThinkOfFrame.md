@@ -46,10 +46,11 @@ StartSpring --> BeanInstantiation --> BeanFieldSet --> BeanNameAware BeanNameAwa
 核心理解:
 1 核心在于BeanFactory#getBean. 剩余的都是在createBean的路上狂奔.
 
-#### BeanFactory基础构成关系
-
+# source handler
+## BeanFactory基础构成关系
 ```text
 BeanFactory 最顶级类。定义IOC对外最基础接口
+HierarchicalBeanFactory 额外封装了一层接口类，spring框架是提供了getParentBeanFactory&containsLocalBean两个接口，但本质没有额外增加处理逻辑
 ListableBeanFactory  获取指定类型的所有实例， 对IOC统一对外二次封装
 AutowireCapableBeanFactory 自动注入顶级接口。提供自动注入的一些基础接口
 
@@ -61,6 +62,14 @@ ConfigurableListableBeanFactory 组合IOC对外接口，以及单例对外操作
 
 总结: 其实主要分为两条线
 ```
+## 顶级接口基础实现.
+### 实现路径
+
+public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory, BeanDefinitionRegistry
+
 
 v1 基本的要求 IOC 基本的容器管理
 
