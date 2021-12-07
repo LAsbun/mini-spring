@@ -1,8 +1,6 @@
-package com.demo.spring.framework.bean.factory.support;
+package com.demo.spring.framework.beans.factory.support;
 
-import com.demo.spring.framework.bean.exception.BeansException;
-
-import java.beans.Beans;
+import com.demo.spring.framework.beans.exception.BeansException;
 
 /**
  * 普通的bean工厂接口。被委托的接口.

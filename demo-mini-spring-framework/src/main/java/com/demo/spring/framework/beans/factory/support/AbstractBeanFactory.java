@@ -1,12 +1,14 @@
-package com.demo.spring.framework.bean.factory.support;
+package com.demo.spring.framework.beans.factory.support;
 
-import com.demo.spring.framework.bean.core.convert.ConversionService;
-import com.demo.spring.framework.bean.exception.BeansException;
-import com.demo.spring.framework.bean.factory.BeanDefinition;
-import com.demo.spring.framework.bean.factory.ConfigurableBeanFactory;
-import com.demo.spring.framework.bean.factory.FactoryBean;
-import com.demo.spring.framework.bean.factory.config.BeanPostProcessor;
-import com.demo.spring.framework.bean.util.StringValueResolver;
+import com.demo.spring.framework.beans.core.convert.ConversionService;
+import com.demo.spring.framework.beans.exception.BeansException;
+import com.demo.spring.framework.beans.factory.config.BeanDefinition;
+import com.demo.spring.framework.beans.factory.ConfigurableBeanFactory;
+import com.demo.spring.framework.beans.factory.FactoryBean;
+import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
+import com.demo.spring.framework.beans.util.StringValueResolver;
+import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +21,10 @@ import java.util.List;
  **/
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
+    @Getter
     private final List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
 
+    @Getter
     private final List<StringValueResolver> stringValueResolverList = new ArrayList<>();
 
     private ConversionService conversionService;

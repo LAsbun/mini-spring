@@ -1,4 +1,4 @@
-package com.demo.spring.framework.bean.util;
+package com.demo.spring.framework.beans.util;
 
 /**
  * @desc 字符串处理器

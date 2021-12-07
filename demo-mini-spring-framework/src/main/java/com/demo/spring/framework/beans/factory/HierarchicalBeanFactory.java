@@ -1,4 +1,4 @@
-package com.demo.spring.framework.bean.factory;
+package com.demo.spring.framework.beans.factory;
 
 /**
  * Bean继承接口.

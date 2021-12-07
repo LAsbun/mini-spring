@@ -1,6 +1,7 @@
-package com.demo.spring.framework.bean.factory;
+package com.demo.spring.framework.beans.factory;
 
-import com.demo.spring.framework.bean.exception.BeansException;
+import com.demo.spring.framework.beans.exception.BeansException;
+import com.demo.spring.framework.beans.factory.config.BeanDefinition;
 
 /**
  * 框架接口

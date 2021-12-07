@@ -1,4 +1,4 @@
-package com.demo.spring.framework.bean.exception;
+package com.demo.spring.framework.beans.exception;
 
 /**
  * Beans 基础异常类

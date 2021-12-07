@@ -1,6 +1,6 @@
-package com.demo.spring.framework.bean.factory;
+package com.demo.spring.framework.beans.factory;
 
-import com.demo.spring.framework.bean.exception.BeansException;
+import com.demo.spring.framework.beans.exception.BeansException;
 
 /**
  * 自动注入顶级接口。提供自动注入的一些基础接口

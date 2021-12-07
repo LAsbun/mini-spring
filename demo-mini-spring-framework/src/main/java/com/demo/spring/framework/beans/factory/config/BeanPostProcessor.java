@@ -1,6 +1,6 @@
-package com.demo.spring.framework.bean.factory.config;
+package com.demo.spring.framework.beans.factory.config;
 
-import com.demo.spring.framework.bean.exception.BeansException;
+import com.demo.spring.framework.beans.exception.BeansException;
 
 /**
  * @desc 修改实例化Bean之后的扩展点

@@ -1,8 +1,8 @@
-package com.demo.spring.framework.bean.factory;
+package com.demo.spring.framework.beans.factory;
 
-import com.demo.spring.framework.bean.core.convert.ConversionService;
-import com.demo.spring.framework.bean.factory.config.BeanPostProcessor;
-import com.demo.spring.framework.bean.util.StringValueResolver;
+import com.demo.spring.framework.beans.core.convert.ConversionService;
+import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
+import com.demo.spring.framework.beans.util.StringValueResolver;
 
 /**
  * 结合BeanFactory和SingletonBeanRegistry

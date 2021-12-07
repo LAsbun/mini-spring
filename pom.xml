@@ -19,6 +19,8 @@
         <juni.version>4.12</juni.version>
         <tomcat.version>8.5.23</tomcat.version>
         <guava.version>30.1-jre</guava.version>
+        <lombok.version>1.18.4</lombok.version>
+        <hutool.version>5.5.0</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -37,6 +39,16 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

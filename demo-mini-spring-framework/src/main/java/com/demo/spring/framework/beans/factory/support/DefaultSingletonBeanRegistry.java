@@ -1,7 +1,7 @@
-package com.demo.spring.framework.bean.factory.support;
+package com.demo.spring.framework.beans.factory.support;
 
-import com.demo.spring.framework.bean.exception.BeansException;
-import com.demo.spring.framework.bean.factory.SingletonBeanRegistry;
+import com.demo.spring.framework.beans.exception.BeansException;
+import com.demo.spring.framework.beans.factory.SingletonBeanRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

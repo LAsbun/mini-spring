@@ -1,4 +1,4 @@
-package com.demo.spring.framework.bean.factory.support;
+package com.demo.spring.framework.beans.factory.support;
 
 import java.util.HashMap;
 import java.util.Map;
