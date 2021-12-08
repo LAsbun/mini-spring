@@ -38,7 +38,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
         BeanDefinition beanDefinition = getBeanDefinition(name);
         Object bean = createBean(name, beanDefinition);
-        return getObjectForBeanInstance(sharedInstance, name);
+        return getObjectForBeanInstance(bean, name);
     }
 
     // 创建实例Bean
@@ -94,11 +94,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     public void addBeanProcessor(BeanPostProcessor beanPostProcessor) {
         this.beanPostProcessorList.remove(beanPostProcessor);
         this.beanPostProcessorList.add(beanPostProcessor);
-    }
-
-    @Override
-    public void destroySingletons() {
-
     }
 
     @Override

@@ -10,6 +10,8 @@ import com.demo.spring.framework.beans.core.convert.ConversionService;
 import com.demo.spring.framework.beans.exception.BeansException;
 import com.demo.spring.framework.beans.factory.AutowireCapableBeanFactory;
 import com.demo.spring.framework.beans.factory.BeanFactoryAware;
+import com.demo.spring.framework.beans.factory.DisposableBean;
+import com.demo.spring.framework.beans.factory.InitializingBean;
 import com.demo.spring.framework.beans.factory.config.BeanDefinition;
 import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
 import com.demo.spring.framework.beans.factory.config.BeanReference;
@@ -24,7 +26,7 @@ import java.lang.reflect.Method;
  * Created by shengweisong
  */
 
-public abstract class AbstractAutowireCapableBenFactory extends AbstractBeanFactory
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
         implements AutowireCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
@@ -110,10 +112,17 @@ public abstract class AbstractAutowireCapableBenFactory extends AbstractBeanFact
             throw new BeansException("Instantiation of bean failed", e);
         }
 
-        //注册有销毁方法的bean TODO
+        //注册有销毁方法的bean
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-        return bean;
+        // 因为上面有些循环依赖的类还是为二，三级类，所以需要重新将代理类改为对应实例.
+        Object exposedObject = bean;
+        if (beanDefinition.isSingleton()) {
+            exposedObject = getSingleton(beanName);
+            registerSingleton(beanName, exposedObject);
+        }
+
+        return exposedObject;
 
     }
 
@@ -167,7 +176,11 @@ public abstract class AbstractAutowireCapableBenFactory extends AbstractBeanFact
     }
 
     private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
-
+        if (beanDefinition.isSingleton()) {
+            if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+                registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
+            }
+        }
     }
 
     protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws Throwable {
@@ -194,7 +207,10 @@ public abstract class AbstractAutowireCapableBenFactory extends AbstractBeanFact
 
     private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition) throws Throwable {
 
-        // TODO 判断是否是InitializingBean
+        //  判断是否是InitializingBean
+        if (wrappedBean instanceof InitializingBean) {
+            ((InitializingBean) wrappedBean).afterPropertiesSet();
+        }
 
         String initMethodName = beanDefinition.getInitMethodName();
         if (StrUtil.isNotEmpty(initMethodName)) {
@@ -228,18 +244,6 @@ public abstract class AbstractAutowireCapableBenFactory extends AbstractBeanFact
         return instantiationStrategy.instantiate(beanDefinition);
     }
 
-
-    @Override
-    protected BeanDefinition getBeanDefinition(String name) {
-        return null;
-    }
-
-    @Override
-    protected boolean containsBeanDifinition(String beanName) {
-        return false;
-    }
-
-
     @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;
@@ -272,5 +276,4 @@ public abstract class AbstractAutowireCapableBenFactory extends AbstractBeanFact
     public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy) {
         this.instantiationStrategy = instantiationStrategy;
     }
-
 }
