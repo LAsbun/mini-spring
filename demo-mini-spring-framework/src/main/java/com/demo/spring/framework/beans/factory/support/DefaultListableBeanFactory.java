@@ -4,7 +4,9 @@ import com.demo.spring.framework.beans.exception.BeansException;
 import com.demo.spring.framework.beans.factory.ConfigurableListableBeanFactory;
 import com.demo.spring.framework.beans.factory.config.BeanDefinition;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 默认IOC 类
@@ -15,40 +17,52 @@ import java.util.Map;
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
         implements ConfigurableListableBeanFactory, BeanDefinitionRegistery {
 
-
+    private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>(16);
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-
+        beanDefinitionMap.put(beanName, beanDefinition);
     }
 
     @Override
     public BeanDefinition getBeanDefinition(String beanName) {
-        return null;
+        BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
+        if (beanDefinition == null) {
+            throw new BeansException("No bean Name:" + beanName);
+        }
+        return beanDefinition;
+    }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+            if (beanDefinition.isSingleton()) {
+                getBean(beanName);
+            }
+        });
     }
 
     @Override
     public boolean containsBeanDefinition(String beanName) {
-        return false;
-    }
-
-    @Override
-    public String[] getBedifinitionNames() {
-        return new String[0];
-    }
-
-    @Override
-    protected boolean containsBeanDifinition(String beanName) {
-        return false;
+        return beanDefinitionMap.containsKey(beanName);
     }
 
     @Override
     public <T> Map<String, T> getBeanOfType(Class<T> type) throws BeansException {
-        return null;
+        Map<String, T> result = new HashMap<>();
+        beanDefinitionMap.forEach((beanName, mbd) -> {
+            Class beanClass = mbd.getBeanClass();
+            if (type.isAssignableFrom(beanClass)) {
+                T bean = (T) getBean(beanName);
+                result.put(beanName, bean);
+            }
+        });
+        return result;
     }
 
     @Override
     public String[] getBeanDefinitionNames() {
-        return new String[0];
+        Set<String> beanNameSet = beanDefinitionMap.keySet();
+        return beanNameSet.toArray(new String[0]);
     }
 }

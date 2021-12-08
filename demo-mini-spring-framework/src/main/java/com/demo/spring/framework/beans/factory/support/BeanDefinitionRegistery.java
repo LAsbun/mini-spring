@@ -32,5 +32,5 @@ public interface BeanDefinitionRegistery {
     /**
      * 获取全部已注册的BeanName
      */
-    String[] getBedifinitionNames();
+    String[] getBeanDefinitionNames();
 }

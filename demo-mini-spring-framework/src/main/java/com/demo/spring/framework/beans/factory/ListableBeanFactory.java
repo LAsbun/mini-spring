@@ -15,11 +15,6 @@ public interface ListableBeanFactory extends BeanFactory {
 
     /**
      * 获取指定类型的全部Bean
-     *
-     * @param type
-     * @param <T>
-     * @return
-     * @throws BeansException
      */
     <T> Map<String, T> getBeanOfType(Class<T> type) throws BeansException;
 

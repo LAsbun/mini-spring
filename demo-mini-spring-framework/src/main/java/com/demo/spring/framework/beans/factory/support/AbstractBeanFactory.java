@@ -47,12 +47,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     //
     protected abstract BeanDefinition getBeanDefinition(String name);
 
-    protected abstract boolean containsBeanDifinition(String beanName);
+    // 是否包含
+    protected abstract boolean containsBeanDefinition(String beanName);
+
 
     @Override
     public boolean containsBean(String beanName) {
-        return containsBeanDifinition(beanName);
+        return containsBeanDefinition(beanName);
     }
+
 
     /**
      * 在这里特殊判断是否是由FactoryBean创建
