@@ -17,4 +17,5 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
      * 这里面存放的是使用FactoryBean创建的实例即beanName:FactoryBean#getObject()
      */
     protected final Map<String, Object> factoryBeanObjectCache = new HashMap<>(16);
+
 }

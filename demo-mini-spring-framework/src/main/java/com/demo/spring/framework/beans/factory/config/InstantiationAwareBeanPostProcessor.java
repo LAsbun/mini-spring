@@ -1,6 +1,5 @@
 package com.demo.spring.framework.beans.factory.config;
 
-import com.demo.spring.framework.beans.PropertyValue;
 import com.demo.spring.framework.beans.PropertyValues;
 
 /**
@@ -25,4 +24,9 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      * 实例化之后，设置属性之前
      */
     PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName);
+
+    /**
+     * 提前暴露bean. 针对循环引用
+     */
+    Object getEarlyBeanReference(Object bean, String beanName);
 }

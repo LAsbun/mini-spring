@@ -1,13 +1,12 @@
 package com.demo.spring.framework.beans.factory.support;
 
-import com.demo.spring.framework.beans.core.convert.ConversionService;
+import com.demo.spring.framework.core.convert.ConversionService;
 import com.demo.spring.framework.beans.exception.BeansException;
 import com.demo.spring.framework.beans.factory.config.BeanDefinition;
 import com.demo.spring.framework.beans.factory.ConfigurableBeanFactory;
 import com.demo.spring.framework.beans.factory.FactoryBean;
 import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
 import com.demo.spring.framework.beans.util.StringValueResolver;
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.demo.spring.framework.beans.core.convert;
+package com.demo.spring.framework.core.convert;
 
 /**
  * @desc 类型转换抽象接口

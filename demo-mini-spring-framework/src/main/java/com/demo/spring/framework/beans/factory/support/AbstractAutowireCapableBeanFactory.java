@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.TypeUtil;
 import com.demo.spring.framework.beans.PropertyValue;
 import com.demo.spring.framework.beans.PropertyValues;
-import com.demo.spring.framework.beans.core.convert.ConversionService;
+import com.demo.spring.framework.core.convert.ConversionService;
 import com.demo.spring.framework.beans.exception.BeansException;
 import com.demo.spring.framework.beans.factory.AutowireCapableBeanFactory;
 import com.demo.spring.framework.beans.factory.BeanFactoryAware;
@@ -17,7 +17,6 @@ import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
 import com.demo.spring.framework.beans.factory.config.BeanReference;
 import com.demo.spring.framework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -97,6 +96,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 实例化
             bean = createInstance(beanDefinition);
 
+            // 这里是为了避免循环依赖，先创建一个factoryBean提前暴露
+            if (beanDefinition.isSingleton()) {
+                Object finalBean = bean;
+                registerSingletonFactory(beanName, new ObjectFactory<Object>() {
+                    @Override
+                    public Object getObject() throws BeansException {
+                        return getEarlyBeanReference(beanName, beanDefinition, finalBean);
+                    }
+                });
+            }
+
             // 设置bean属性前，判断是否允许修改属性值.
             boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantialization(bean, beanName);
             if (!continueWithPropertyPopulation) {
@@ -122,6 +132,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             registerSingleton(beanName, exposedObject);
         }
 
+        return exposedObject;
+
+    }
+
+    /**
+     *
+     */
+    private Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object finalBean) {
+
+        Object exposedObject = finalBean;
+
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessorList()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                exposedObject = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).getEarlyBeanReference(finalBean, beanName);
+                if (exposedObject == null) {
+                    return exposedObject;
+                }
+            }
+        }
         return exposedObject;
 
     }

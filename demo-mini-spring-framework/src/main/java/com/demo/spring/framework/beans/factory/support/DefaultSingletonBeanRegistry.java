@@ -37,6 +37,10 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      */
     private final Map<String, DisposableBean> disposableBeans = new HashMap<>(16);
 
+    public void registerSingletonFactory(String beanName, ObjectFactory<?> objectFactory) {
+        this.singletonFactories.put(beanName, objectFactory);
+    }
+
     @Override
     public void registerSingleton(String beanName, Object singletonObject) {
 

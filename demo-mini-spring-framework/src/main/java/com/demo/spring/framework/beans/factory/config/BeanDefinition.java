@@ -37,6 +37,15 @@ public class BeanDefinition {
     private boolean singleton = true;
     private boolean prototype = false;
 
+    public BeanDefinition(Class<?> clz) {
+        this(clz, null);
+    }
+
+    public BeanDefinition(Class<?> clz, PropertyValues propertyValues) {
+        this.beanClass = clz;
+        this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
+    }
+
 
     @Override
     public boolean equals(Object o) {

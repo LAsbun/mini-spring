@@ -47,7 +47,9 @@ StartSpring --> BeanInstantiation --> BeanFieldSet --> BeanNameAware BeanNameAwa
 1 核心在于BeanFactory#getBean. 剩余的都是在createBean的路上狂奔.
 
 # source handler
+
 ## BeanFactory基础构成关系
+
 ```text
 BeanFactory 最顶级类。定义IOC对外最基础接口
 HierarchicalBeanFactory 额外封装了一层接口类，spring框架是提供了getParentBeanFactory&containsLocalBean两个接口，但本质没有额外增加处理逻辑
@@ -62,14 +64,28 @@ ConfigurableListableBeanFactory 组合IOC对外接口，以及单例对外操作
 
 总结: 其实主要分为两条线
 ```
+
 ## 顶级接口基础实现.
+
 ### 实现路径
 
-public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory, BeanDefinitionRegistry
+- public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry public abstract class AbstractBeanFactory
+  extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory public abstract class
+- AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory public class
+- DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory,
+  BeanDefinitionRegistry
 
+## 加载BeanDefinition
+
+- Resource 将文件改为输入流. Spring是InputStreamSource -> Rsource
+- ResourceLoader 加载Resource
+- BeanDefinitionReader 读取Resource输入流，变为reader.
+    - XmlBeanDefinitionReader
+- 至此从定义Bean类，到加载到BeanFactory Done
+
+## 使用BeanFactory. 即应用
+
+ApplicationEventPublisher 事件发布 ApplicationContext 应用管理器 ConfigurableApplicationContext ApplicationContext扩展
 
 v1 基本的要求 IOC 基本的容器管理
 
