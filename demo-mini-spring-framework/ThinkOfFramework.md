@@ -85,7 +85,9 @@ ConfigurableListableBeanFactory 组合IOC对外接口，以及单例对外操作
 
 ## 使用BeanFactory. 即应用
 
-ApplicationEventPublisher 事件发布 ApplicationContext 应用管理器 ConfigurableApplicationContext ApplicationContext扩展
+- ApplicationEventPublisher 事件发布 
+- ApplicationContext 应用管理器 
+- ConfigurableApplicationContext ApplicationContext扩展
 
 v1 基本的要求 IOC 基本的容器管理
 

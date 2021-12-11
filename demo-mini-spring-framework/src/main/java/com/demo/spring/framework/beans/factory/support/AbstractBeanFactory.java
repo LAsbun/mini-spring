@@ -69,10 +69,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
             try {
                 if (factoryBean.isSingleton()) {
                     // 注意这里获取的不是FactoryBean实例自身。而且FactoryBean#getObject
-                    Object bean = this.factoryBeanObjectCache.get(beanName);
-                    if (bean == null) {
-                        bean = factoryBean.getObject();
-                        this.factoryBeanObjectCache.put(beanName, bean);
+                    object = this.factoryBeanObjectCache.get(beanName);
+                    if (object == null) {
+                        object = factoryBean.getObject();
+                        this.factoryBeanObjectCache.put(beanName, object);
                     }
 
                 } else {
