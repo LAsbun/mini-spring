@@ -1,6 +1,7 @@
 package com.demo.spring.framework.context.beantest;
 
 import com.demo.spring.framework.beans.exception.BeansException;
+import com.demo.spring.framework.beans.factory.DisposableBean;
 import com.demo.spring.framework.beans.factory.FactoryBean;
 import com.demo.spring.framework.beans.factory.support.Person;
 
@@ -10,7 +11,7 @@ import com.demo.spring.framework.beans.factory.support.Person;
  * @author shengweisong
  * @date 2021/12/11
  **/
-public class CustomFactoryBean implements FactoryBean<Person> {
+public class CustomFactoryBean implements FactoryBean<Person>, DisposableBean {
     @Override
     public Person getObject() throws BeansException {
         Person person = new Person();
@@ -22,5 +23,10 @@ public class CustomFactoryBean implements FactoryBean<Person> {
     @Override
     public boolean isSingleton() {
         return true;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        getObject().destroy();
     }
 }

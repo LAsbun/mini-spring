@@ -5,10 +5,7 @@ import com.demo.spring.framework.beans.factory.BeanFactory;
 import com.demo.spring.framework.beans.factory.ConfigurableListableBeanFactory;
 import com.demo.spring.framework.beans.factory.config.BeanFactoryPostProcessor;
 import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
-import com.demo.spring.framework.context.event.ApplicationEventMulticaster;
-import com.demo.spring.framework.context.event.ApplicationListener;
-import com.demo.spring.framework.context.event.ContextRefreshedEvent;
-import com.demo.spring.framework.context.event.SimpleApplicationEventMulticaster;
+import com.demo.spring.framework.context.event.*;
 import com.demo.spring.framework.core.convert.ConversionService;
 import com.demo.spring.framework.core.io.DefaultResourceLoader;
 import com.demo.spring.framework.core.io.Resource;
@@ -152,12 +149,27 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
     @Override
     public void close() {
+        doClose();
+    }
 
+    private void doClose() {
+        pulishEvent(new ContextCloseEvent(this));
+        destroyBeans();
+    }
+
+    private void destroyBeans() {
+
+        getBeanFactory().destroySingletons();
     }
 
     @Override
     public void registerShutdownHook() {
-
+        Thread shutdownHook = new Thread() {
+            public void run() {
+                doClose();
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
     /**

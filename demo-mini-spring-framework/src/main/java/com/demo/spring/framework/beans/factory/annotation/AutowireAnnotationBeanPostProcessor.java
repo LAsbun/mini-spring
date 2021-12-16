@@ -17,6 +17,9 @@ public class AutowireAnnotationBeanPostProcessor implements InstantiationAwareBe
 
     private ConfigurableListableBeanFactory beanFactory;
 
+    public AutowireAnnotationBeanPostProcessor() {
+    }
+
 
     public AutowireAnnotationBeanPostProcessor(BeanFactory beanFactory) {
         this.beanFactory = (ConfigurableListableBeanFactory) beanFactory;

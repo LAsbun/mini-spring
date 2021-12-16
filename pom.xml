@@ -22,6 +22,9 @@
         <lombok.version>1.18.4</lombok.version>
         <hutool.version>5.5.0</hutool.version>
         <dom4j.version>2.1.3</dom4j.version>
+        <cglib.version>3.3.0</cglib.version>
+        <aopalliance.version>1.0</aopalliance.version>
+        <aspectjweaver.version>1.8.0</aspectjweaver.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +59,26 @@
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
             </dependency>
+            <!--     aop       -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>aopalliance</groupId>
+                <artifactId>aopalliance</artifactId>
+                <version>${aopalliance.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectjweaver.version}</version>
+            </dependency>
+            <!--     aop       -->
+
         </dependencies>
     </dependencyManagement>
 

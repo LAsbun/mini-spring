@@ -8,8 +8,26 @@
 		 http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <!--    <context:component-scan base-package="com.demo.spring.framework.beans.factory.support"/>-->
-    <bean id = "ff"
+
+    <bean id="ff"
           class="com.demo.spring.framework.context.beantest.CustomFactoryBean"/>
+    <bean id="personx" class="com.demo.spring.framework.beans.factory.support.Person">
+        <property name="age" value="12"/>
+        <property name="name" value="personx"/>
+    </bean>
+
+    <bean class="com.demo.spring.framework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    <bean id="beforePersonPointcut" class="com.demo.spring.framework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression"
+                  value="execution(* com.demo.spring.framework.beans.factory.support.Person.getAge(..))"/>
+        <property name="advice" ref="methodIntercetor"/>
+    </bean>
+
+    <bean id="methodIntercetor" class="com.demo.spring.framework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="beforeAdvice" class="com.demo.spring.framework.aoptest.PersonBeforeAdvice"/>
 
     <!--    <bean class="org.springframework.test.common.CustomBeanFactoryPostProcessor"/>-->
     <!---->

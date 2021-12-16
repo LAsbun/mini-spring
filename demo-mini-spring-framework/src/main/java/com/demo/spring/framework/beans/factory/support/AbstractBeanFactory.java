@@ -6,7 +6,7 @@ import com.demo.spring.framework.beans.factory.config.BeanDefinition;
 import com.demo.spring.framework.beans.factory.ConfigurableBeanFactory;
 import com.demo.spring.framework.beans.factory.FactoryBean;
 import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
-import com.demo.spring.framework.beans.util.StringValueResolver;
+import com.demo.spring.framework.utils.StringValueResolver;
 import lombok.Getter;
 
 import java.util.ArrayList;

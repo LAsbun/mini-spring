@@ -65,7 +65,7 @@ ConfigurableListableBeanFactory 组合IOC对外接口，以及单例对外操作
 总结: 其实主要分为两条线
 ```
 
-## 顶级接口基础实现.
+## IOC顶级接口基础实现.
 
 ### 实现路径
 
@@ -75,7 +75,7 @@ ConfigurableListableBeanFactory 组合IOC对外接口，以及单例对外操作
 - DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory,
   BeanDefinitionRegistry
 
-## 加载BeanDefinition
+### 加载BeanDefinition
 
 - Resource 将文件改为输入流. Spring是InputStreamSource -> Rsource
 - ResourceLoader 加载Resource
@@ -83,13 +83,34 @@ ConfigurableListableBeanFactory 组合IOC对外接口，以及单例对外操作
     - XmlBeanDefinitionReader
 - 至此从定义Bean类，到加载到BeanFactory Done
 
-## 使用BeanFactory. 即应用
+### 使用BeanFactory. 即应用
 
-- ApplicationEventPublisher 事件发布 
-- ApplicationContext 应用管理器 
+- ApplicationEventPublisher 事件发布
+- ApplicationContext 应用管理器
 - ConfigurableApplicationContext ApplicationContext扩展
+  - AbstractApplicationContext  约定刷新核心流程 refresh函数. 抽象实例工厂
+  - AbstractRefreshableApplicationContext  实例BeanFactory. 抽象loadDefinition
+  - AbstractXmlApplicationContext   实现loadDefinition 抽象definition来源
+  - ClassPathApplicationContext v1 基本的要求 IOC 基本的容器管理  
 
-v1 基本的要求 IOC 基本的容器管理
+## AOP
+- AOP 实际就是代理模式. 不要想复杂
+- java中实现代理
+  - JDK(需要实现某个接口)
+  - Cglib(final标注的不能代理，因为是继承实现的。)
+
+### Spring AOP实现思想
+一些概念
+```text
+Joinpoint连接点: 指那些被拦截到的点
+PointCut(切入点): 对拦截点进行作用的定义
+Advice(通知、增强): 对PointCut 进行Before After 异常等通知增强
+Target(目标):代理的目标对象
+Weaving(织入): 对目标对象增强的点
+Aspect(切面): 是切入点和通知的结合
+```
+简单理解，就是对通过一定的切入点增强，作用于(通过织入)某个Target的JointPoint
+
 
 - 类加载
 - 有参构造函数bean

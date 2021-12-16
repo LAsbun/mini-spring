@@ -2,7 +2,7 @@ package com.demo.spring.framework.beans.factory;
 
 import com.demo.spring.framework.core.convert.ConversionService;
 import com.demo.spring.framework.beans.factory.config.BeanPostProcessor;
-import com.demo.spring.framework.beans.util.StringValueResolver;
+import com.demo.spring.framework.utils.StringValueResolver;
 
 /**
  * 结合BeanFactory和SingletonBeanRegistry
